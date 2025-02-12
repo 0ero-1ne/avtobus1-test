@@ -1,8 +1,38 @@
-﻿@{
+﻿@using Avtobus1.Models
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div>
+    <div class="top-content">
+        <h1>Links</h1>
+        <a class="btn btn-outline-success" asp-controller="Home" asp-action="Create">Create short link</a>
+    </div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Short name</th>
+                <th>Reirects</th>
+                <th>Created at</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(Link link in ViewBag.Links)
+            {
+                <tr>
+                    <td>@link.Name</td>
+                    <td>@link.ShortName</td>
+                    <td>@link.Redirects</td>
+                    <td>@link.CreatedAt</td>
+                    <td>
+                        <a class="fa fa-edit action-link" style="color: deepskyblue;" asp-controller="Home" asp-action="Edit"></a>
+                        <a class="fa fa-trash-o action-link" style="color: red;"></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>

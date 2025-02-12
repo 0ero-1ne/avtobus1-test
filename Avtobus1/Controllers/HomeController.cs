@@ -1,31 +1,45 @@
-using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
+using Avtobus1.Context;
 using Avtobus1.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Avtobus1.Controllers;
 
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
+    private readonly LinkContext _context;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ILogger<HomeController> logger, LinkContext context)
     {
         _logger = logger;
+        _context = context;
     }
 
     public IActionResult Index()
     {
+        Link link = new()
+        {
+            Name = "Name",
+            ShortName = "Short name",
+            CreatedAt = DateTime.Now,
+            Redirects = 1
+        };
+        ViewBag.Links = new List<Link>([link]);
         return View();
     }
 
-    public IActionResult Privacy()
+    public IActionResult Create()
     {
         return View();
     }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
+    public IActionResult Read()
     {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        return View();
+    }
+
+    public IActionResult Edit()
+    {
+        return View();
     }
 }
