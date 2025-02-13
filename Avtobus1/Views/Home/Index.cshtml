@@ -24,7 +24,7 @@
             {
                 <tr>
                     <td>@link.Name</td>
-                    <td class="full-shortname">@link.ShortName</td>
+                    <td class="full-shortname"><a href="#">@link.ShortName</a></td>
                     <td>@link.Redirects</td>
                     <td>@link.CreatedAt</td>
                     <td>
@@ -44,8 +44,9 @@
 </div>
 
 <script>
-    document.querySelectorAll(".full-shortname").forEach(item => {
+    document.querySelectorAll(".full-shortname>a").forEach(item => {
         item.innerHTML = document.location.href + item.innerHTML;
+        item.setAttribute("href", item.innerHTML);
     });
 
     document.querySelectorAll(".delete-link").forEach(item => {
