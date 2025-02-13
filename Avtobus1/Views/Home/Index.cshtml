@@ -14,7 +14,7 @@
             <tr>
                 <th>Name</th>
                 <th>Short name</th>
-                <th>Reirects</th>
+                <th>Redirects</th>
                 <th>Created at</th>
                 <th>Actions</th>
             </tr>
@@ -28,11 +28,38 @@
                     <td>@link.Redirects</td>
                     <td>@link.CreatedAt</td>
                     <td>
-                        <a class="fa fa-edit action-link" style="color: deepskyblue;" asp-controller="Home" asp-action="Edit"></a>
-                        <a class="fa fa-trash-o action-link" style="color: red;"></a>
+                        <a class="fa fa-edit action-link" style="color: deepskyblue;"
+                            asp-controller="Home"
+                            asp-action="Edit"
+                            asp-route-id="@link.Id"></a>
+                        <a class="fa fa-trash-o action-link delete-link"
+                            style="color: red;"
+                            id="@link.Id">
+                        </a>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
+
+<script>
+    document.querySelectorAll(".delete-link").forEach(item => {
+        item.addEventListener("click", async (event) => {
+            await fetch("/api/links/" + item.getAttribute("id"), {
+                method: "delete"
+            })
+                .then(async (response) => {
+                    let body = await response.text();
+                    if (response.ok)
+                    {
+                        alert(body);
+                        document.location.reload();
+                        return;
+                    }
+                    alert("Deleting error: " + body);
+                })
+                .catch(err => alert("Error: " + err))
+        });
+    });
+</script>

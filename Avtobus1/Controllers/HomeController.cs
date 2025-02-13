@@ -1,4 +1,3 @@
-using Avtobus1.Context;
 using Avtobus1.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,24 +6,17 @@ namespace Avtobus1.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-    private readonly LinkContext _context;
+    private readonly ILinkService _linkService;
 
-    public HomeController(ILogger<HomeController> logger, LinkContext context)
+    public HomeController(ILogger<HomeController> logger, ILinkService linkService)
     {
         _logger = logger;
-        _context = context;
+        _linkService = linkService;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        Link link = new()
-        {
-            Name = "Name",
-            ShortName = "Short name",
-            CreatedAt = DateTime.Now,
-            Redirects = 1
-        };
-        ViewBag.Links = new List<Link>([link]);
+        ViewBag.Links = await _linkService.GetAll();
         return View();
     }
 
@@ -33,13 +25,9 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult Read()
+    public async Task<IActionResult> Edit(string id)
     {
-        return View();
-    }
-
-    public IActionResult Edit()
-    {
+        ViewBag.Link = await _linkService.GetById(Guid.Parse(id));
         return View();
     }
 }

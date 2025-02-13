@@ -5,7 +5,7 @@ namespace Avtobus1.Context
 {
     public class LinkContext : DbContext
     {
-        public DbSet<Link>? Links { get; set; }
+        public DbSet<Link> Links { get; set; }
 
         public LinkContext(DbContextOptions options) : base(options)
         {

@@ -2,10 +2,35 @@
     ViewData["Title"] = "Create link";
 }
 
-<form class="position-absolute top-50 start-50 translate-middle w-50">
+<form action="/api/links" method="post">
     <div class="form-group">
-        <label for="link" class="mb-3 fw-normal fs-3">Link</label>
-        <input type="text" class="form-control mb-3" id="input-link" placeholder="Enter link" required>
+        <label for="input-link" class="mb-3 fw-normal fs-3">Link</label>
+        <input type="text" class="form-control mb-3" name="link" id="input-link" placeholder="Enter link" required>
     </div>
     <button type="submit" class="btn btn-primary" id="submit-link" disabled>Submit</button>
 </form>
+
+<script>
+    document.querySelector("#submit-link").addEventListener("click", async (event) => {
+        event.preventDefault();
+        await fetch("/api/links", {
+            method: "post",
+            body: JSON.stringify({
+                value: ("" + document.querySelector("#input-link").value).trim()
+            }),
+            headers: {
+                "Content-Type": "application/json; charset=utf-8"
+            }
+        })
+            .then(async (response) => {
+                if (response.ok)
+                {
+                    document.location.replace(document.location.origin);
+                    return;
+                }
+                let body = await response.text();
+                alert("Creating error: " + body);
+            })
+            .catch(e => console.log(e));
+    });
+</script>

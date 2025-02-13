@@ -1,5 +1,70 @@
 ﻿@{
     ViewData["Title"] = "Edit link - id";
+    var link = (Link)ViewBag.Link;
 }
 
-<h1>Edit</h1>
+<div class="alert alert-danger invisible" role="alert" id="error-block">
+    <div id="error-message"></div>
+</div>
+
+<form>
+    <div class="form-group">
+        <label for="input-link" class="mb-3 fw-normal fs-3">Link</label>
+        <input type="text"
+            class="form-control mb-3"
+            name="name"
+            id="input-link"
+            placeholder="Enter link"
+            value="@link.Name"
+            required />
+    </div>
+    <div class="form-group">
+        <label for="input-link" class="mb-3 fw-normal fs-3">Short link</label>
+        <input type="text"
+            min="6"
+            class="form-control mb-3"
+            name="shortname"
+            id="input-shortlink"
+            placeholder="Enter short link"
+            value="@link.ShortName"
+            required>
+    </div>
+    <input type="submit" class="btn btn-primary" id="submit-link" value="Submit" />
+</form>
+
+<script>
+    document.querySelector("#submit-link").addEventListener("click", async (event) => {
+        event.preventDefault();
+        const id = `@link.Id`;
+        const name = document.querySelector("#input-link").value + "";
+        const shortName = document.querySelector("#input-shortlink").value + "";
+        const redirects = @link.Redirects;
+        let createdAt = new Date(Date.parse(`@link.CreatedAt.ToString()`));
+        createdAt = new Date(createdAt).toLocaleString('sv').replace(' ', 'T');
+
+        await fetch("/api/links", {
+            method: "put",
+            body: JSON.stringify({
+                id: id,
+                name: name.trim(),
+                shortname: shortName.trim(),
+                redirects: redirects,
+                createdat: createdAt
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then(async (response) => {
+                if (!response.ok)
+                {
+                    let body = await response.json();
+                    document.querySelector("#error-block").classList.remove("invisible");
+                    document.querySelector("#error-message").innerHTML = body.errors[Object.keys(body.errors)[0]];
+                    return;
+                }
+
+                document.location.replace(document.location.origin);
+            })
+    });
+</script>
