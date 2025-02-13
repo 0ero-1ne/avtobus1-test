@@ -24,7 +24,7 @@
             {
                 <tr>
                     <td>@link.Name</td>
-                    <td>@link.ShortName</td>
+                    <td id="full-shortname">@link.ShortName</td>
                     <td>@link.Redirects</td>
                     <td>@link.CreatedAt</td>
                     <td>
@@ -44,6 +44,7 @@
 </div>
 
 <script>
+    document.querySelector("#full-shortname").innerHTML = document.location.href + document.querySelector("#full-shortname").innerHTML;
     document.querySelectorAll(".delete-link").forEach(item => {
         item.addEventListener("click", async (event) => {
             await fetch("/api/links/" + item.getAttribute("id"), {
@@ -53,7 +54,6 @@
                     let body = await response.text();
                     if (response.ok)
                     {
-                        alert(body);
                         document.location.reload();
                         return;
                     }

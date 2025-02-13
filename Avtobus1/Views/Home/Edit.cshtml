@@ -35,7 +35,6 @@
 <script>
     document.querySelector("#submit-link").addEventListener("click", async (event) => {
         event.preventDefault();
-        const id = `@link.Id`;
         const name = document.querySelector("#input-link").value + "";
         const shortName = document.querySelector("#input-shortlink").value + "";
         const redirects = @link.Redirects;
@@ -45,10 +44,10 @@
         await fetch("/api/links", {
             method: "put",
             body: JSON.stringify({
-                id: id,
+                id: `@link.Id`,
                 name: name.trim(),
                 shortname: shortName.trim(),
-                redirects: redirects,
+                redirects: @link.Redirects,
                 createdat: createdAt
             }),
             headers: {

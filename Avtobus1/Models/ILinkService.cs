@@ -6,6 +6,8 @@
 
         Task<Link?> GetById(Guid id);
 
+        Task<Link?> GetByShortLink(string shortLink);
+
         Task<Link?> Create(string link);
 
         Task<Link?> Update(Link link);

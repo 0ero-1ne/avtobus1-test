@@ -18,6 +18,12 @@ namespace Avtobus1.Services
             return await _context.Links.FirstOrDefaultAsync(l => l.Id == id);
         }
 
+        public async Task<Link?> GetByShortLink(string shortLink)
+        {
+            var link = await _context.Links.FirstOrDefaultAsync(l => l.ShortName == shortLink);
+            return link;
+        }
+
         public async Task<Link?> Create(string link)
         {
             Link linkEntry = new()

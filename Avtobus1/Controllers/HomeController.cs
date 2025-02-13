@@ -30,4 +30,18 @@ public class HomeController : Controller
         ViewBag.Link = await _linkService.GetById(Guid.Parse(id));
         return View();
     }
+
+    [Route("{shortLink}")]
+    public async Task<IActionResult> NavigateTo(string shortLink)
+    {
+        var link = await _linkService.GetByShortLink(shortLink);
+        if (link is null)
+        {
+            return NotFound("Link was not found");
+        }
+
+        link.Redirects += 1;
+        await _linkService.Update(link);
+        return Redirect(link.Name!);
+    }
 }
