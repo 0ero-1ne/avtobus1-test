@@ -7,7 +7,7 @@ namespace Avtobus1.Context
     {
         public DbSet<Link> Links { get; set; }
 
-        public LinkContext(DbContextOptions options) : base(options)
+        public LinkContext() : base()
         {
             Database.EnsureCreated();
         }
