@@ -1,6 +1,5 @@
 using Avtobus1.Context;
 using Avtobus1.Services;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,10 +12,7 @@ if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("CONNECTION_STRING")
     throw new Exception("No env variable \"CONNECTION_STRING\"");
 }
 
-builder.Services.AddDbContext<LinkContext>(options => options.UseMySql(
-    Environment.GetEnvironmentVariable("CONNECTION_STRING")!,
-    new MySqlServerVersion(new Version(9, 2, 0))
-));
+builder.Services.AddDbContext<LinkContext>();
 
 builder.Services.AddTransient<ILinkService, LinkService>();
 

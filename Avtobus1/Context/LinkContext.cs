@@ -11,5 +11,13 @@ namespace Avtobus1.Context
         {
             Database.EnsureCreated();
         }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseMySql(
+                Environment.GetEnvironmentVariable("CONNECTION_STRING")!,
+                new MySqlServerVersion(new Version())
+            );
+        }
     }
 }
