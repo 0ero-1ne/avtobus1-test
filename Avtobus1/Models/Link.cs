@@ -7,12 +7,12 @@ namespace Avtobus1.Models
     {
         public Guid Id { get; set; }
 
-        [Required(ErrorMessage = "Link was not provided")]
         [Url(ErrorMessage = "Provided link is bad")]
-        public string? Name { get; set; }
+        public string? FullLink { get; set; }
 
-        [Required(ErrorMessage = "Short name was not provided")]
-        public string? ShortName { get; set; }
+        [Required(ErrorMessage = "Short link was not provided")]
+        [RegularExpression(@"^[0-9a-zA-Z]{6,}$", ErrorMessage = "Invalid short link: only letter, numbers and at least 6 characters")]
+        public string? ShortLink { get; set; }
 
         public DateTime CreatedAt { get; set; }
 
@@ -24,13 +24,13 @@ namespace Avtobus1.Models
             List<ValidationResult> errors = [];
             LinkContext linkContext = (LinkContext)validationContext.GetService(typeof(LinkContext))!;
 
-            var findLinkByShortName = linkContext.Links.FirstOrDefault(l => l.ShortName == ShortName);
+            var findLinkByShortName = linkContext.Links.FirstOrDefault(l => l.ShortLink == ShortLink);
             if (findLinkByShortName is not null && findLinkByShortName.Id != Id)
             {
                 errors.Add(new ValidationResult("Short name already in use"));
             }
 
-            if (CreatedAt >= DateTime.Now)
+            if (CreatedAt > DateTime.Now)
             {
                 errors.Add(new ValidationResult("Wrong creation date value"));
             }

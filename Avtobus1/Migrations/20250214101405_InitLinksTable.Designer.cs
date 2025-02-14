@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Avtobus1.Migrations
 {
     [DbContext(typeof(LinkContext))]
-    [Migration("20250212162708_Init")]
-    partial class Init
+    [Migration("20250214101405_InitLinksTable")]
+    partial class InitLinksTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,13 +34,15 @@ namespace Avtobus1.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("FullLink")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int>("Redirects")
                         .HasColumnType("int");
 
-                    b.Property<string>("ShortName")
+                    b.Property<string>("ShortLink")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");

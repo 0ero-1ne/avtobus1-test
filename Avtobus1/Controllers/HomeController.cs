@@ -1,4 +1,4 @@
-using Avtobus1.Models;
+using Avtobus1.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Avtobus1.Controllers;
@@ -42,6 +42,6 @@ public class HomeController : Controller
 
         link.Redirects += 1;
         await _linkService.Update(link);
-        return Redirect(link.Name!);
+        return Redirect(link.FullLink!);
     }
 }

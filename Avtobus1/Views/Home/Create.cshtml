@@ -2,12 +2,16 @@
     ViewData["Title"] = "Create link";
 }
 
+<div class="alert alert-danger invisible" role="alert" id="error-block">
+    <div id="error-message"></div>
+</div>
+
 <form action="/api/links" method="post">
     <div class="form-group">
         <label for="input-link" class="mb-3 fw-normal fs-3">Link</label>
         <input type="text" class="form-control mb-3" name="link" id="input-link" placeholder="Enter link" required>
     </div>
-    <button type="submit" class="btn btn-primary" id="submit-link" disabled>Submit</button>
+    <button type="submit" class="btn btn-primary" id="submit-link">Submit</button>
 </form>
 
 <script>
@@ -28,8 +32,10 @@
                     document.location.replace(document.location.origin);
                     return;
                 }
-                let body = await response.text();
-                alert("Creating error: " + body);
+                let body = await response.json();
+                document.querySelector("#error-block").classList.remove("invisible");
+                document.querySelector("#error-message").innerHTML = body.errors[Object.keys(body.errors)[0]];
+                return;
             })
             .catch(e => console.log(e));
     });

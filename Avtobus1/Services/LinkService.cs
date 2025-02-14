@@ -20,7 +20,7 @@ namespace Avtobus1.Services
 
         public async Task<Link?> GetByShortLink(string shortLink)
         {
-            var link = await _context.Links.FirstOrDefaultAsync(l => l.ShortName == shortLink);
+            var link = await _context.Links.FirstOrDefaultAsync(l => l.ShortLink == shortLink);
             return link;
         }
 
@@ -29,15 +29,15 @@ namespace Avtobus1.Services
             Link linkEntry = new()
             {
                 Id = Guid.NewGuid(),
-                Name = link,
-                ShortName = Utilities.RandomGenerator.GenerateString(8),
+                FullLink = link,
+                ShortLink = Utilities.RandomGenerator.GenerateString(8),
                 CreatedAt = DateTime.Now,
                 Redirects = 0
             };
 
-            while (await _context.Links.FirstOrDefaultAsync(l => l.ShortName == linkEntry.ShortName) is not null)
+            while (await _context.Links.FirstOrDefaultAsync(l => l.ShortLink == linkEntry.ShortLink) is not null)
             {
-                linkEntry.ShortName = Utilities.RandomGenerator.GenerateString(8);
+                linkEntry.ShortLink = Utilities.RandomGenerator.GenerateString(8);
             }
 
             _context.Links.Add(linkEntry);

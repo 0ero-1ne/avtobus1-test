@@ -31,13 +31,15 @@ namespace Avtobus1.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("FullLink")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int>("Redirects")
                         .HasColumnType("int");
 
-                    b.Property<string>("ShortName")
+                    b.Property<string>("ShortLink")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");

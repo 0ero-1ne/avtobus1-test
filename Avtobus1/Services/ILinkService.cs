@@ -1,4 +1,6 @@
-﻿namespace Avtobus1.Models
+﻿using Avtobus1.Models;
+
+namespace Avtobus1.Services
 {
     public interface ILinkService
     {

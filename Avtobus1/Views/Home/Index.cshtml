@@ -12,8 +12,8 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Short name</th>
+                <th>Full link</th>
+                <th>Short link</th>
                 <th>Redirects</th>
                 <th>Created at</th>
                 <th>Actions</th>
@@ -23,8 +23,8 @@
             @foreach(Link link in ViewBag.Links)
             {
                 <tr>
-                    <td>@link.Name</td>
-                    <td class="full-shortname"><a href="#">@link.ShortName</a></td>
+                    <td>@link.FullLink</td>
+                    <td class="full-shortlink"><a href="#" target="_blank">@link.ShortLink</a></td>
                     <td>@link.Redirects</td>
                     <td>@link.CreatedAt</td>
                     <td>
@@ -44,7 +44,7 @@
 </div>
 
 <script>
-    document.querySelectorAll(".full-shortname>a").forEach(item => {
+    document.querySelectorAll(".full-shortlink>a").forEach(item => {
         item.innerHTML = document.location.href + item.innerHTML;
         item.setAttribute("href", item.innerHTML);
     });

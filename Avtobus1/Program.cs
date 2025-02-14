@@ -1,5 +1,4 @@
 using Avtobus1.Context;
-using Avtobus1.Models;
 using Avtobus1.Services;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,4 +1,5 @@
 ﻿using Avtobus1.Models;
+using Avtobus1.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Avtobus1.API
@@ -22,8 +23,13 @@ namespace Avtobus1.API
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] PostModel model)
+        public async Task<IActionResult> Create([FromBody] PostLink model)
         {
+            if (!ModelState.IsValid)
+            {
+                Response.StatusCode = 401;
+                return new JsonResult(ModelState["PostLink"]?.Errors[0].ErrorMessage);
+            }
             var result = await _service.Create(model.Value!);
             Response.StatusCode = result is null ? 401 : 201;
             return result is null ? BadRequest("Provided link has wrong format") : new JsonResult(result);
@@ -40,19 +46,14 @@ namespace Avtobus1.API
 
             var result = await _service.Update(link);
             Response.StatusCode = result is null ? 401 : 201;
-            return result is null ? BadRequest($"There is now entry with {link.Id} id") : new JsonResult(result);
+            return result is null ? BadRequest($"No entity with {link.Id} id") : new JsonResult(result);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var result = await _service.Delete(id);
-            return result ? Ok("Entity was successfully deleted") : BadRequest($"No entity with {id} id");
-        }
-
-        public class PostModel
-        {
-            public string? Value { get; set; }
+            return result ? Ok() : BadRequest($"No entity with {id} id");
         }
     }
 }

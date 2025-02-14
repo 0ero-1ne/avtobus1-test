@@ -15,7 +15,7 @@
             name="name"
             id="input-link"
             placeholder="Enter link"
-            value="@link.Name"
+            value="@link.FullLink"
             required />
     </div>
     <div class="form-group">
@@ -26,7 +26,7 @@
             name="shortname"
             id="input-shortlink"
             placeholder="Enter short link"
-            value="@link.ShortName"
+            value="@link.ShortLink"
             required>
     </div>
     <input type="submit" class="btn btn-primary" id="submit-link" value="Submit" />
@@ -45,8 +45,8 @@
             method: "put",
             body: JSON.stringify({
                 id: `@link.Id`,
-                name: name.trim(),
-                shortname: shortName.trim(),
+                fulllink: name.trim(),
+                shortlink: shortName.trim(),
                 redirects: @link.Redirects,
                 createdat: createdAt
             }),
